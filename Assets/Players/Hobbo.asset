@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Hobbo
   m_EditorClassIdentifier: 
   name: Hobbo
+  idPlayer: 2
   image: {fileID: 0}
   health: 0
   maxHealth: 0

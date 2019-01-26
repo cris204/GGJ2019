@@ -33,7 +33,10 @@ public class CanvasManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        for (int i = 0; i < playerScore.Length; i++)
+        {
+            playerScore[i].text = GameManager.Instance.GetPlayers(i).score.ToString();
+        }
     }
 
     // Update is called once per frame

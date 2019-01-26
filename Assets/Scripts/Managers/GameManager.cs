@@ -6,6 +6,10 @@ public class GameManager : MonoBehaviour
 {
     private static GameManager instance;
     public static GameManager Instance { get => instance; }
+    
+
+    [SerializeField]
+    private PlayerScriptableObject[] players;
 
     [Header("Time")]
     [SerializeField]
@@ -62,7 +66,10 @@ public class GameManager : MonoBehaviour
         //Next stage or finish game
     }
 
-
+    public PlayerScriptableObject GetPlayers(int i)
+    {
+        return players[i];
+    }
 
 
 
@@ -77,7 +84,7 @@ public class GameManager : MonoBehaviour
             if (playersInZone==1)
             {
                 isAlone = true;
-               // StartCoroutine(UpgradeScore(collision.GetComponent<PlayerManager>().idPlayer));
+                StartCoroutine(UpgradeScore(collision.GetComponent<PlayerManager>().player.idPlayer));
             }
             else
             {
@@ -94,7 +101,7 @@ public class GameManager : MonoBehaviour
             if (playersInZone == 1)
             {
                 isAlone = true;
-               // StartCoroutine(UpgradeScore());
+                StartCoroutine(UpgradeScore(collision.GetComponent<PlayerManager>().player.idPlayer));
             }
             else
             {
@@ -113,10 +120,14 @@ public class GameManager : MonoBehaviour
         {
             yield return null;
 
-            Debug.Log("update Score");
+            Debug.Log( players[idPlayer].name);
         }
         Debug.Log("finish");
     }
+
+    #endregion
+
+    #region Get&Set
 
     #endregion
 

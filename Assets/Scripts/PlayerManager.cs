@@ -6,6 +6,8 @@ public class PlayerManager : MonoBehaviour
 {
     public PlayerScriptableObject player;
     [SerializeField]
+    private int idPlayer;
+    [SerializeField]
     private string moveHorizontal;
     [SerializeField]
     private string moveVertical;
@@ -29,6 +31,7 @@ public class PlayerManager : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        idPlayer = player.idPlayer;
     }
 
     void Update()

@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Pato
   m_EditorClassIdentifier: 
   name: Pato
+  idPlayer: 3
   image: {fileID: 0}
   health: 0
   maxHealth: 0
