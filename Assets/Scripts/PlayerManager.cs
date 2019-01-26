@@ -83,15 +83,15 @@ public class PlayerManager : MonoBehaviour
         inputDirection.x = Input.GetAxis(aimHorizontal);
         inputDirection.y = Input.GetAxis(aimVertical);
         startPosition=transform.position;
-        if(inputDirection.x>-0.5f && inputDirection.x < 0.5f)
+        if(inputDirection.x > -0.5f && inputDirection.x < 0.5f)
         {
-            if(inputDirection.y>-0.5f && inputDirection.y < 0.5f)
+            if(inputDirection.y > -0.5f && inputDirection.y < 0.5f)
             {
-            inputDirection.y=oldAim.y;
+                inputDirection.y = 1f;//oldAim.y;
             }
-            inputDirection.x=oldAim.x;
+            inputDirection.x = 0f;//oldAim.x;
         }
-        if(inputDirection.x>0.6f)
+        /*if(inputDirection.x > 0.6f)
         {
             inputDirection.x = 1f;
             if(inputDirection.y > 0.6f)
@@ -107,8 +107,8 @@ public class PlayerManager : MonoBehaviour
                 inputDirection.y = -1f;
             }
         }
-        oldAim = startPosition + inputDirection;
-        aim.transform.position = oldAim;
+        oldAim*/aim.transform.position = startPosition + inputDirection;
+        //aim.transform.position = oldAim;
     }
 
     private void Attack()
