@@ -18,7 +18,6 @@ public class PlayerManager : MonoBehaviour
     private string aimHorizontal;
     [SerializeField]
     private string aimVertical;
-    [SerializeField]
     private float speed;
     [SerializeField]
     private float bulletSpeed;
@@ -33,14 +32,23 @@ public class PlayerManager : MonoBehaviour
     private bool canShoot;
     private Vector2 oldAim;
     private Vector2 inputDirection;
-#endregion
+    private float timeWithPowerUp;
+    #endregion
     #region unity functions
+    private void OnEnable()
+    {
+        canShoot=true;
+        player.attack = 10;
+
+    }
+
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         idPlayer = player.idPlayer;
         canShoot=true;
         inputDirection =new Vector2(0, 1);
+        speed = player.movementSpeed;
     }
 
     void Update()
@@ -83,15 +91,15 @@ public class PlayerManager : MonoBehaviour
         inputDirection.x = Input.GetAxis(aimHorizontal);
         inputDirection.y = Input.GetAxis(aimVertical);
         startPosition=transform.position;
-        if(inputDirection.x > -0.5f && inputDirection.x < 0.5f)
+        if(inputDirection.x>-0.5f && inputDirection.x < 0.5f)
         {
-            if(inputDirection.y > -0.5f && inputDirection.y < 0.5f)
+            if(inputDirection.y>-0.5f && inputDirection.y < 0.5f)
             {
-                inputDirection.y = 1f;//oldAim.y;
+                inputDirection.y = 1;//oldAim.y;
             }
-            inputDirection.x = 0f;//oldAim.x;
+            inputDirection.x = 0;//oldAim.x;
         }
-        /*if(inputDirection.x > 0.6f)
+      /*  if(inputDirection.x>0.6f)
         {
             inputDirection.x = 1f;
             if(inputDirection.y > 0.6f)
@@ -107,13 +115,15 @@ public class PlayerManager : MonoBehaviour
                 inputDirection.y = -1f;
             }
         }
-        oldAim*/aim.transform.position = startPosition + inputDirection;
+        oldAim*/ aim.transform.position = startPosition + inputDirection;
         //aim.transform.position = oldAim;
     }
 
     private void Attack()
     {
+        Debug.Log("bullet");
         GameObject bullet = BulletPool.Instance.GetBullet();
+        bullet.GetComponent<BulletLifeTime>().whoShoot = player;
         bullet.transform.position = aim.transform.position;
         bullet.GetComponent<Rigidbody2D>().velocity =(aim.transform.position-transform.position).normalized*bulletSpeed*Time.deltaTime;
     }
@@ -128,8 +138,17 @@ public class PlayerManager : MonoBehaviour
     {
         if (col.gameObject.CompareTag("Bullet"))
         {
-            player.health -= 10;
+            player.health -= col.GetComponent<BulletLifeTime>().whoShoot.attack;
+            CanvasManager.Instance.UpdateHealtBars(player.idPlayer, col.GetComponent<BulletLifeTime>().whoShoot.attack);
             BulletPool.Instance.ReleaseBullet(col.gameObject);
+        }
+        if (col.gameObject.CompareTag("Damage")|| col.gameObject.CompareTag("Health")|| col.gameObject.CompareTag("Speed"))
+        {
+            
+            timeWithPowerUp= col.gameObject.GetComponent<PowerUps>().DurationTime;
+            StartCoroutine(PowerUpTime(col.gameObject.GetComponent<PowerUps>().Value, col.gameObject.GetComponent<PowerUps>().Type));
+            col.gameObject.SetActive(false);
+           
         }
     }
     #endregion
@@ -138,6 +157,39 @@ public class PlayerManager : MonoBehaviour
     {
         yield return new WaitForSeconds(0.3f);
         canShoot = true;
+    }
+
+    IEnumerator PowerUpTime(int value,string type)
+    {
+        switch (type)
+        {
+            case "Damage":
+                player.attack *= value;
+                break;
+            case "Health":
+                // player.health /= value;
+                break;
+            case "Speed":
+                player.movementSpeed *= value;
+                break;
+        }
+
+        Debug.Log(type);
+        yield return new WaitForSeconds(timeWithPowerUp);
+        
+        switch (type)
+        {
+            case "Damage":
+                player.attack /= value;
+                break;
+            case "Health":
+                // player.health /= value;
+                break;
+            case "Speed":
+                player.movementSpeed /= value;
+                break;
+        }
+        
     }
     #endregion
 }
