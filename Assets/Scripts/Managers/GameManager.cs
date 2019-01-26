@@ -10,7 +10,12 @@ public class GameManager : MonoBehaviour
     
 
     [SerializeField]
-    private PlayerScriptableObject[] players;
+    private PlayerScriptableObject[] playersScriptableObj;
+    [SerializeField]
+    private GameObject[] players;
+    private SpriteRenderer[] playerSprite=new SpriteRenderer[4];
+    [SerializeField]
+    private SpriteRenderer[] aimPlayerSprite = new SpriteRenderer[4];
 
     [Header("Time")]
     [SerializeField]
@@ -32,7 +37,13 @@ public class GameManager : MonoBehaviour
 
     [Header("Respawn")]
     [SerializeField]
-    private GameObject[] initialPos;
+    private Transform[] initialPos;
+    [SerializeField]
+    private float timeToRespawn;
+    private WaitForSeconds waitForSecondsToRespawn;
+    [SerializeField]
+    private Color deathAlpha;
+    private bool isDeath;
 
 
     private void Awake()
@@ -51,21 +62,34 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        for (int i = 0; i < players.Length; i++)
+        for (int i = 0; i < playersScriptableObj.Length; i++)
         {
-            players[i].score = 0;
+            playersScriptableObj[i].score = 0;
+            playersScriptableObj[i].health = 100;
             CanvasManager.Instance.UpdateScore(i, 0);
+            playerSprite[i] = players[i].GetComponent<SpriteRenderer>();
+            aimPlayerSprite[i] = players[i].transform.GetChild(0).GetComponent<SpriteRenderer>();
         }
+        SpawnPlayers();
         StartCoroutine(ReadyToStart());
         currentTime = maxTime;
         CanvasManager.Instance.TimeElapsed(currentTime);
         playersInZone = 0;
+        waitForSecondsToRespawn = new WaitForSeconds(timeToRespawn);
     }
 
     // Update is called once per frame
     void Update()
     {
         TimeElapsed();
+    }
+
+    public void SpawnPlayers()
+    {
+        for (int i = 0; i < initialPos.Length; i++)
+        {
+            players[i].transform.localPosition = initialPos[i].localPosition;
+        }
     }
 
     public void TimeElapsed()
@@ -95,9 +119,15 @@ public class GameManager : MonoBehaviour
 
     public PlayerScriptableObject GetPlayers(int i)
     {
-        return players[i];
+        return playersScriptableObj[i];
     }
 
+    public void RespawnPlayer(int idPlayer)
+    {
+        playerSprite[idPlayer].color = deathAlpha;
+        aimPlayerSprite[idPlayer].color = deathAlpha;
+        StartCoroutine(Respawn(idPlayer));
+    }
 
     #region Colliders
 
@@ -146,9 +176,9 @@ public class GameManager : MonoBehaviour
         while (isAlone)
         {
             yield return null;
-            players[idPlayer].score+=Time.deltaTime;
-            CanvasManager.Instance.UpdateScore(idPlayer, players[idPlayer].score);
-            Debug.Log( players[idPlayer].name);
+            playersScriptableObj[idPlayer].score+=Time.deltaTime;
+            CanvasManager.Instance.UpdateScore(idPlayer, playersScriptableObj[idPlayer].score);
+            Debug.Log( playersScriptableObj[idPlayer].name);
         }
     }
 
@@ -163,6 +193,13 @@ public class GameManager : MonoBehaviour
         }
         CanvasManager.Instance.TimeToStart(timeToStart);
         StartGame = true;
+    }
+
+    IEnumerator Respawn(int idPlayer)
+    {
+        yield return waitForSecondsToRespawn;
+        playersScriptableObj[idPlayer].health = 100;
+        players[idPlayer].transform.localPosition = initialPos[idPlayer].localPosition;
     }
 
     #endregion

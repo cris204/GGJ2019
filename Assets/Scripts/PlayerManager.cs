@@ -65,7 +65,6 @@ public class PlayerManager : MonoBehaviour
     {
         horizontal = Input.GetAxis(moveHorizontal);
         vertical = Input.GetAxis(moveVertical);
-
         rb.velocity = (new Vector2(horizontal,vertical) * speed * Time.deltaTime);
     }
 
@@ -96,7 +95,7 @@ public class PlayerManager : MonoBehaviour
 
     private void Death()
     {
-        Debug.Log("Estas putamente muerto");
+        GameManager.Instance.RespawnPlayer(idPlayer);
     } 
     #endregion
     #region collisions
