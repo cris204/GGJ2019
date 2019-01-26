@@ -17,6 +17,10 @@ public class CanvasManager : MonoBehaviour
     private Text[] playerScore;
     [SerializeField]
     private Text timeElapsed;
+    [SerializeField]
+    private GameObject container;
+    [SerializeField]
+    private Text timeToStart;
 
     private void Awake()
     {
@@ -28,6 +32,7 @@ public class CanvasManager : MonoBehaviour
         {
             Destroy(this.gameObject);
         }
+        DontDestroyOnLoad(this.gameObject);
     }
 
     // Start is called before the first frame update
@@ -45,6 +50,11 @@ public class CanvasManager : MonoBehaviour
         
     }
 
+    public void UpdateScore(int idPlayer,float newScore)
+    {
+        playerScore[idPlayer].text = newScore.ToString("F0");
+    }
+
     public void AssignPlayerSprite(int idPlayer,Sprite playerSprite)
     {
         playersSprites[idPlayer].sprite = playerSprite;
@@ -58,6 +68,15 @@ public class CanvasManager : MonoBehaviour
     public void TimeElapsed(float time)
     {
         timeElapsed.text = time.ToString("F0");
+    }
+
+    public void TimeToStart(float timeLeftToStart)
+    {
+        timeToStart.text = timeLeftToStart.ToString("F0");
+        if (timeLeftToStart<=0)
+        {
+            container.SetActive(false);
+        }
     }
 
 }

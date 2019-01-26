@@ -14,6 +14,6 @@ public class PlayerScriptableObject : ScriptableObject
     public int attack;
     public int baseMovementSpeed;
     public float movementSpeed;
-    public int score;
+    public float score;
     public int deathCount;
 }

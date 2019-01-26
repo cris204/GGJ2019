@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -15,6 +16,10 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private float maxTime;
     private float currentTime;
+    [SerializeField]
+    private float timeToStart;
+    [SerializeField]
+    private bool startGame=false;
 
 
     [Header("Detect Players in zone"),Space]
@@ -22,7 +27,12 @@ public class GameManager : MonoBehaviour
     private int playersInZone;
     [SerializeField]
     private bool isAlone;
+    [SerializeField]
+    private List<int> playersIdInZone=new List<int>();
 
+    [Header("Respawn")]
+    [SerializeField]
+    private GameObject[] initialPos;
 
 
     private void Awake()
@@ -35,13 +45,20 @@ public class GameManager : MonoBehaviour
         {
             Destroy(this.gameObject);
         }
+        DontDestroyOnLoad(this.gameObject);
     }
 
     // Start is called before the first frame update
     void Start()
     {
-       
+        for (int i = 0; i < players.Length; i++)
+        {
+            players[i].score = 0;
+            CanvasManager.Instance.UpdateScore(i, 0);
+        }
+        StartCoroutine(ReadyToStart());
         currentTime = maxTime;
+        CanvasManager.Instance.TimeElapsed(currentTime);
         playersInZone = 0;
     }
 
@@ -53,25 +70,33 @@ public class GameManager : MonoBehaviour
 
     public void TimeElapsed()
     {
-        currentTime -= Time.deltaTime;
-        CanvasManager.Instance.TimeElapsed(currentTime);
-        if (currentTime >= maxTime)
+        if (StartGame)
         {
-            FinishStage();
+            currentTime -= Time.deltaTime;
+            CanvasManager.Instance.TimeElapsed(currentTime);
+            if (currentTime >= maxTime)
+            {
+                FinishStage(true);
+            }
         }
     }
 
-    private void FinishStage()
+    private void FinishStage(bool continueToNextStage, string stageName = "")
     {
-        //Next stage or finish game
+        if (continueToNextStage)
+        {
+            SceneManager.LoadScene(stageName);
+        }
+        else
+        {
+            SceneManager.LoadScene("");//FinishGame
+        }
     }
 
     public PlayerScriptableObject GetPlayers(int i)
     {
         return players[i];
     }
-
-
 
 
     #region Colliders
@@ -81,10 +106,11 @@ public class GameManager : MonoBehaviour
         if (collision.tag == "Player")
         {
             playersInZone++;
+            playersIdInZone.Add(collision.GetComponent<PlayerManager>().player.idPlayer);
             if (playersInZone==1)
             {
                 isAlone = true;
-                StartCoroutine(UpgradeScore(collision.GetComponent<PlayerManager>().player.idPlayer));
+                StartCoroutine(UpgradeScore(playersIdInZone[0]));
             }
             else
             {
@@ -98,10 +124,11 @@ public class GameManager : MonoBehaviour
         if (collision.tag == "Player")
         {
             playersInZone--;
+            playersIdInZone.Remove(collision.GetComponent<PlayerManager>().player.idPlayer);
             if (playersInZone == 1)
             {
                 isAlone = true;
-                StartCoroutine(UpgradeScore(collision.GetComponent<PlayerManager>().player.idPlayer));
+                StartCoroutine(UpgradeScore(playersIdInZone[0]));
             }
             else
             {
@@ -119,16 +146,29 @@ public class GameManager : MonoBehaviour
         while (isAlone)
         {
             yield return null;
-
+            players[idPlayer].score+=Time.deltaTime;
+            CanvasManager.Instance.UpdateScore(idPlayer, players[idPlayer].score);
             Debug.Log( players[idPlayer].name);
         }
-        Debug.Log("finish");
+    }
+
+    IEnumerator ReadyToStart()
+    {
+        while (timeToStart > 0)
+        {
+            yield return null;
+            CanvasManager.Instance.TimeToStart(timeToStart);
+            timeToStart -= Time.deltaTime;
+
+        }
+        CanvasManager.Instance.TimeToStart(timeToStart);
+        StartGame = true;
     }
 
     #endregion
 
     #region Get&Set
-
+    public bool StartGame { get => startGame; set => startGame = value; }
     #endregion
 
 }
