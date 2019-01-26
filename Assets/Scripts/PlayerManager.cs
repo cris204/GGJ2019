@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class PlayerManager : MonoBehaviour
 {
+    #region variables
     public PlayerScriptableObject player;
     [SerializeField]
     private int idPlayer;
@@ -29,10 +30,9 @@ public class PlayerManager : MonoBehaviour
     [SerializeField]
     private GameObject aim;
     private Vector2 startPosition;
-
-    private bool canShoot;  
-
-
+    private bool canShoot;
+#endregion
+    #region unity functions
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -48,13 +48,19 @@ public class PlayerManager : MonoBehaviour
             canShoot=false;
             StartCoroutine(ShootDelay());
         }
+
+        if (player.health <= 0)
+        {
+            Death();
+        }
     }
     void FixedUpdate()
     {
         Move();
         Aim();
     }
-
+    #endregion
+    #region functions
     private void Move()
     {
         horizontal = Input.GetAxis(moveHorizontal);
@@ -69,6 +75,15 @@ public class PlayerManager : MonoBehaviour
         inputDirection.x = Input.GetAxis(aimHorizontal);
         inputDirection.y = Input.GetAxis(aimVertical);
         startPosition=transform.position;
+        Debug.Log(inputDirection);
+        if(inputDirection.x>-0.5f && inputDirection.x < 0.5f)
+        {
+            if(inputDirection.y>-0.5f && inputDirection.y < 0.5f)
+            {
+            inputDirection.y=1;
+            }
+            inputDirection.x=0;
+        }
         aim.transform.position = startPosition + inputDirection;
     }
 
@@ -79,9 +94,27 @@ public class PlayerManager : MonoBehaviour
         bullet.GetComponent<Rigidbody2D>().velocity =(aim.transform.position-transform.position)*bulletSpeed*Time.deltaTime;
     }
 
+    private void Death()
+    {
+        Debug.Log("Estas putamente muerto");
+    } 
+    #endregion
+    #region collisions
+    void OnTriggerEnter2D(Collider2D col)
+    {
+        if (col.gameObject.CompareTag("Bullet"))
+        {
+            player.health -= 10;
+            BulletPool.Instance.ReleaseBullet(col.gameObject);
+
+        }
+    }
+    #endregion
+    #region coroutines
     IEnumerator ShootDelay()
     {
         yield return new WaitForSeconds(0.3f);
         canShoot = true;
     }
+    #endregion
 }
