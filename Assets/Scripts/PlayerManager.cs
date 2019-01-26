@@ -48,6 +48,11 @@ public class PlayerManager : MonoBehaviour
             canShoot=false;
             StartCoroutine(ShootDelay());
         }
+
+        if (player.health <= 0)
+        {
+            Death();
+        }
     }
     void FixedUpdate()
     {
@@ -87,6 +92,22 @@ public class PlayerManager : MonoBehaviour
         GameObject bullet = BulletPool.Instance.GetBullet();
         bullet.transform.position = aim.transform.position;
         bullet.GetComponent<Rigidbody2D>().velocity =(aim.transform.position-transform.position)*bulletSpeed*Time.deltaTime;
+    }
+
+    private void Death()
+    {
+        Debug.Log("Estas putamente muerto");
+    } 
+    #endregion
+    #region collisions
+    void OnTriggerEnter2D(Collider2D col)
+    {
+        if (col.gameObject.CompareTag("Bullet"))
+        {
+            player.health -= 10;
+            BulletPool.Instance.ReleaseBullet(col.gameObject);
+
+        }
     }
     #endregion
     #region coroutines

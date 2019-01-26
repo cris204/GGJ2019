@@ -15,7 +15,7 @@ MonoBehaviour:
   name: Casa
   idPlayer: 1
   image: {fileID: 0}
-  health: 0
+  health: -900
   maxHealth: 0
   baseAttack: 0
   attack: 0

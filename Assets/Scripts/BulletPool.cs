@@ -46,9 +46,8 @@ public class BulletPool : MonoBehaviour
         return AllocateBullet();
     }
 
-    IEnumerator ReleaseBullet(GameObject obstacle)
+    public void ReleaseBullet(GameObject obstacle)
     {
-        yield return new WaitForSeconds(0.5f);
         obstacle.gameObject.SetActive(false);
         obstacle.transform.position = initialPosition;
 
@@ -68,7 +67,6 @@ public class BulletPool : MonoBehaviour
         GameObject obstacle = obstacles[obstacles.Count - 1];
         obstacles.RemoveAt(obstacles.Count - 1);
         obstacle.gameObject.SetActive(true);
-        StartCoroutine(ReleaseBullet(obstacle));
         return obstacle;
     }
 }
