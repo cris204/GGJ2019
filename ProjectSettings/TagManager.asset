@@ -6,6 +6,9 @@ TagManager:
   tags:
   - Bounds
   - Bullet
+  - Damage
+  - Health
+  - Speed
   layers:
   - Default
   - TransparentFX

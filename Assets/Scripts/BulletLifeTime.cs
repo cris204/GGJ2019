@@ -6,6 +6,7 @@ public class BulletLifeTime : MonoBehaviour
 {
     [SerializeField]
     private float lifeTime;
+    public PlayerScriptableObject whoShoot;
 
     private void OnEnable()
     {
