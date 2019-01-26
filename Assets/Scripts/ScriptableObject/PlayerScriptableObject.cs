@@ -6,6 +6,7 @@ using UnityEngine;
 public class PlayerScriptableObject : ScriptableObject
 {
     public string name;
+    public int idPlayer;
     public Sprite image;
     public int health;
     public int maxHealth;
