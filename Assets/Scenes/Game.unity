@@ -1230,8 +1230,9 @@ GameObject:
   m_Component:
   - component: {fileID: 2040944206}
   - component: {fileID: 2040944205}
+  - component: {fileID: 2040944207}
   m_Layer: 0
-  m_Name: BulletPool
+  m_Name: Pool
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1266,3 +1267,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2040944207
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2040944204}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e7dbaaaec17925245a769e913d546334, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  obstaclePrefab: {fileID: 4318607409675836074, guid: ebbbb678945110d4ca91ed861e94b0af,
+    type: 3}
+  size: 20

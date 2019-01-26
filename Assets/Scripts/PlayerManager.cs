@@ -31,6 +31,8 @@ public class PlayerManager : MonoBehaviour
     private GameObject aim;
     private Vector2 startPosition;
     private bool canShoot;
+    private Vector2 oldAim;
+    private Vector2 inputDirection;
 #endregion
     #region unity functions
     void Start()
@@ -38,26 +40,33 @@ public class PlayerManager : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         idPlayer = player.idPlayer;
         canShoot=true;
+        inputDirection =new Vector2(0, 1);
     }
 
     void Update()
     {
-        if(Input.GetAxis(fire1)>0.5f && canShoot)
+        if (GameManager.Instance.StartGame)
         {
-            Attack();
-            canShoot=false;
-            StartCoroutine(ShootDelay());
-        }
+            if (Input.GetAxis(fire1) > 0.5f && canShoot)
+            {
+                Attack();
+                canShoot = false;
+                StartCoroutine(ShootDelay());
+            }
 
-        if (player.health <= 0)
-        {
-            Death();
+            if (player.health <= 0)
+            {
+                Death();
+            }
         }
     }
     void FixedUpdate()
     {
-        Move();
-        Aim();
+        if (GameManager.Instance.StartGame)
+        {
+            Move();
+            Aim();
+        }
     }
     #endregion
     #region functions
@@ -70,27 +79,43 @@ public class PlayerManager : MonoBehaviour
 
     private void Aim()
     {
-        Vector2 inputDirection = Vector2.zero;
+        //Vector2 inputDirection = Vector2.zero;
         inputDirection.x = Input.GetAxis(aimHorizontal);
         inputDirection.y = Input.GetAxis(aimVertical);
         startPosition=transform.position;
-        Debug.Log(inputDirection);
         if(inputDirection.x>-0.5f && inputDirection.x < 0.5f)
         {
             if(inputDirection.y>-0.5f && inputDirection.y < 0.5f)
             {
-            inputDirection.y=1;
+            inputDirection.y=oldAim.y;
             }
-            inputDirection.x=0;
+            inputDirection.x=oldAim.x;
         }
-        aim.transform.position = startPosition + inputDirection;
+        if(inputDirection.x>0.6f)
+        {
+            inputDirection.x = 1f;
+            if(inputDirection.y > 0.6f)
+            {
+                inputDirection.y = 1f;
+            }
+        }
+        if (inputDirection.x < -0.6f)
+        {
+            inputDirection.x = -1f;
+            if (inputDirection.y < -0.6f)
+            {
+                inputDirection.y = -1f;
+            }
+        }
+        oldAim = startPosition + inputDirection;
+        aim.transform.position = oldAim;
     }
 
     private void Attack()
     {
         GameObject bullet = BulletPool.Instance.GetBullet();
         bullet.transform.position = aim.transform.position;
-        bullet.GetComponent<Rigidbody2D>().velocity =(aim.transform.position-transform.position)*bulletSpeed*Time.deltaTime;
+        bullet.GetComponent<Rigidbody2D>().velocity =(aim.transform.position-transform.position).normalized*bulletSpeed*Time.deltaTime;
     }
 
     private void Death()
@@ -105,7 +130,6 @@ public class PlayerManager : MonoBehaviour
         {
             player.health -= 10;
             BulletPool.Instance.ReleaseBullet(col.gameObject);
-
         }
     }
     #endregion
