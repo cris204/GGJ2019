@@ -6,6 +6,7 @@ public class PlayerManager : MonoBehaviour
 {
     #region variables
     public PlayerScriptableObject player;
+    private SpriteRenderer sR;
     [SerializeField]
     private int idPlayer;
     [SerializeField]
@@ -33,6 +34,7 @@ public class PlayerManager : MonoBehaviour
     private Vector2 oldAim;
     private Vector2 inputDirection;
     private float timeWithPowerUp;
+    private Animator anim;
     #endregion
     #region unity functions
     private void OnEnable()
@@ -44,6 +46,8 @@ public class PlayerManager : MonoBehaviour
 
     void Start()
     {
+        sR = GetComponent<SpriteRenderer>();
+        anim = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
         idPlayer = player.idPlayer;
         canShoot=true;
@@ -83,6 +87,16 @@ public class PlayerManager : MonoBehaviour
         horizontal = Input.GetAxis(moveHorizontal);
         vertical = Input.GetAxis(moveVertical);
         rb.velocity = (new Vector2(horizontal,vertical) * speed * Time.deltaTime);
+        if (rb.velocity.x < 0)
+        {
+            sR.flipX = true;
+        }
+        else
+        {
+            sR.flipX = false;
+        }
+        anim.SetFloat("SpeedY",rb.velocity.y);
+        anim.SetFloat("SpeedX",rb.velocity.x);
     }
 
     private void Aim()
@@ -121,6 +135,9 @@ public class PlayerManager : MonoBehaviour
 
     private void Attack()
     {
+        anim.SetBool("Shoot", true);
+        anim.SetLayerWeight(1, 1);
+        
         Debug.Log("bullet");
         GameObject bullet = BulletPool.Instance.GetBullet();
         bullet.GetComponent<BulletLifeTime>().whoShoot = player;
@@ -157,6 +174,8 @@ public class PlayerManager : MonoBehaviour
     {
         yield return new WaitForSeconds(0.3f);
         canShoot = true;
+        anim.SetLayerWeight(1,0);
+        anim.SetBool("Shoot", false);
     }
 
     IEnumerator PowerUpTime(int value,string type)
