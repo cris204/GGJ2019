@@ -136,7 +136,6 @@ public class PlayerManager : MonoBehaviour
     private void Attack()
     {
         anim.SetBool("Shoot", true);
-        anim.SetLayerWeight(1, 1);
         
         Debug.Log("bullet");
         GameObject bullet = BulletPool.Instance.GetBullet();
@@ -174,7 +173,6 @@ public class PlayerManager : MonoBehaviour
     {
         yield return new WaitForSeconds(0.3f);
         canShoot = true;
-        anim.SetLayerWeight(1,0);
         anim.SetBool("Shoot", false);
     }
 
