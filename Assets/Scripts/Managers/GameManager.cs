@@ -173,6 +173,7 @@ public class GameManager : MonoBehaviour
             if (playersInZone == 1)
             {
                 isAlone = true;
+                Debug.Log(playersIdInZone[0]);
                 StartCoroutine(UpgradeScore(playersIdInZone[0]));
             }
             else
@@ -227,8 +228,8 @@ public class GameManager : MonoBehaviour
         playersScriptableObj[idPlayer].health = 100;
         players[idPlayer].transform.localPosition = initialPos[idPlayer].localPosition;
         players[idPlayer].SetActive(true);
+        CanvasManager.Instance.UpdateHealtBars(idPlayer, -100);
 
-        
         while (playerSprite[idPlayer].color.a <= 1)
         {
             yield return null;

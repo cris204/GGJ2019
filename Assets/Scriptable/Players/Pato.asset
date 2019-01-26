@@ -15,11 +15,9 @@ MonoBehaviour:
   name: Pato
   idPlayer: 3
   image: {fileID: 0}
-  health: 0
+  health: 100
   maxHealth: 0
-  baseAttack: 0
-  attack: 0
-  baseMovementSpeed: 0
-  movementSpeed: 0
+  attack: 10
+  movementSpeed: 100
   score: 0
   deathCount: 0
