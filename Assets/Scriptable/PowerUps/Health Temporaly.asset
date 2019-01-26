@@ -9,16 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 495601dab5d0d434eb06b7668c8ee5fe, type: 3}
-  m_Name: Alien
+  m_Script: {fileID: 11500000, guid: cd40ee97831aea14c99f5549cb3d1173, type: 3}
+  m_Name: Health Temporaly
   m_EditorClassIdentifier: 
-  name: Alien
-  image: {fileID: 0}
-  health: 0
-  maxHealth: 0
-  baseAttack: 0
-  attack: 0
-  baseMovementSpeed: 0
-  movementSpeed: 0
-  score: 0
-  deathCount: 0
+  type: Health
+  item: {fileID: 0}
+  value: 0
+  durationTime: 0

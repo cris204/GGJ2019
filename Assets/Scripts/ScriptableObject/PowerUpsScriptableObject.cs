@@ -8,4 +8,5 @@ public class PowerUpsScriptableObject : ScriptableObject
     public string type;
     public Sprite item;
     public int value;
+    public float durationTime;
 }

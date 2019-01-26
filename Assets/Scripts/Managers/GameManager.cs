@@ -8,7 +8,7 @@ public class GameManager : MonoBehaviour
     private static GameManager instance;
     public static GameManager Instance { get => instance; }
     
-
+    [Header("Players")]
     [SerializeField]
     private PlayerScriptableObject[] playersScriptableObj;
     [SerializeField]
@@ -16,6 +16,11 @@ public class GameManager : MonoBehaviour
     private SpriteRenderer[] playerSprite=new SpriteRenderer[4];
     [SerializeField]
     private SpriteRenderer[] aimPlayerSprite = new SpriteRenderer[4];
+
+    [Header("Items")]
+    [SerializeField]
+    private PowerUpsScriptableObject[] powerUpsScriptableObj;
+
 
     [Header("Time")]
     [SerializeField]
@@ -43,11 +48,18 @@ public class GameManager : MonoBehaviour
     private WaitForSeconds waitForSecondsToRespawn;
     [SerializeField]
     private Color deathAlpha;
+    [SerializeField]
+    private Color aliveAlpha;
+    private float lerpAlpha;
     private bool isDeath;
 
+    [Header("Finish")]
+    private float scoreMax;
+    private int winner;
 
     private void Awake()
     {
+        Time.timeScale = 1;
         if (instance == null)
         {
             instance = this;
@@ -56,7 +68,7 @@ public class GameManager : MonoBehaviour
         {
             Destroy(this.gameObject);
         }
-        DontDestroyOnLoad(this.gameObject);
+        //DontDestroyOnLoad(this.gameObject);
     }
 
     // Start is called before the first frame update
@@ -98,23 +110,25 @@ public class GameManager : MonoBehaviour
         {
             currentTime -= Time.deltaTime;
             CanvasManager.Instance.TimeElapsed(currentTime);
-            if (currentTime >= maxTime)
+            if (currentTime <= 0)
             {
-                FinishStage(true);
+                FinishStage();
             }
         }
     }
 
-    private void FinishStage(bool continueToNextStage, string stageName = "")
+    private void FinishStage()
     {
-        if (continueToNextStage)
+        for (int i = 0; i < playersScriptableObj.Length; i++)
         {
-            SceneManager.LoadScene(stageName);
+            if (scoreMax <= playersScriptableObj[i].score)
+            {
+                scoreMax = playersScriptableObj[i].score;
+                winner = i;
+            }
         }
-        else
-        {
-            SceneManager.LoadScene("");//FinishGame
-        }
+        CanvasManager.Instance.FinishGame(playersScriptableObj[winner]);
+        StartCoroutine(RestartGame());
     }
 
     public PlayerScriptableObject GetPlayers(int i)
@@ -124,6 +138,7 @@ public class GameManager : MonoBehaviour
 
     public void RespawnPlayer(int idPlayer)
     {
+        players[idPlayer].SetActive(false);
         playerSprite[idPlayer].color = deathAlpha;
         aimPlayerSprite[idPlayer].color = deathAlpha;
         StartCoroutine(Respawn(idPlayer));
@@ -176,10 +191,21 @@ public class GameManager : MonoBehaviour
         while (isAlone)
         {
             yield return null;
-            playersScriptableObj[idPlayer].score+=Time.deltaTime;
-            CanvasManager.Instance.UpdateScore(idPlayer, playersScriptableObj[idPlayer].score);
-            Debug.Log( playersScriptableObj[idPlayer].name);
+            if (startGame)
+            {
+                playersScriptableObj[idPlayer].score += Time.deltaTime;
+                CanvasManager.Instance.UpdateScore(idPlayer, playersScriptableObj[idPlayer].score);
+                Debug.Log(playersScriptableObj[idPlayer].name);
+            }
         }
+    }
+
+    IEnumerator RestartGame()
+    {
+        StartGame = false;
+        yield return new WaitForSeconds(5f);
+          
+        SceneManager.LoadScene("TestUI");
     }
 
     IEnumerator ReadyToStart()
@@ -200,6 +226,18 @@ public class GameManager : MonoBehaviour
         yield return waitForSecondsToRespawn;
         playersScriptableObj[idPlayer].health = 100;
         players[idPlayer].transform.localPosition = initialPos[idPlayer].localPosition;
+        players[idPlayer].SetActive(true);
+
+        
+        while (playerSprite[idPlayer].color.a <= 1)
+        {
+            yield return null;
+            lerpAlpha += Time.deltaTime*2;
+            aimPlayerSprite[idPlayer].color= Color.Lerp(deathAlpha, aliveAlpha, lerpAlpha);
+            playerSprite[idPlayer].color = Color.Lerp(deathAlpha, aliveAlpha, lerpAlpha);
+        }
+
+        lerpAlpha = 0;
     }
 
     #endregion

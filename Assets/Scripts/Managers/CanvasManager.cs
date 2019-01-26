@@ -22,6 +22,10 @@ public class CanvasManager : MonoBehaviour
     [SerializeField]
     private Text timeToStart;
 
+    [Header("Finish")]
+    public GameObject containerFinishGame;
+    public Text winner;
+
     private void Awake()
     {
         if (instance == null)
@@ -32,7 +36,7 @@ public class CanvasManager : MonoBehaviour
         {
             Destroy(this.gameObject);
         }
-        DontDestroyOnLoad(this.gameObject);
+        //DontDestroyOnLoad(this.gameObject);
     }
 
     // Start is called before the first frame update
@@ -60,9 +64,10 @@ public class CanvasManager : MonoBehaviour
         playersSprites[idPlayer].sprite = playerSprite;
     }
 
-    public void UpdateHealtBars(int idPlayer, int damage)
+    public void UpdateHealtBars(int idPlayer, float damage)
     {
-        playersHealthBars[idPlayer].fillAmount = -damage / 100;
+        Debug.Log(-damage/100);
+        playersHealthBars[idPlayer].fillAmount -= damage / 100;
     }
 
     public void TimeElapsed(float time)
@@ -78,5 +83,9 @@ public class CanvasManager : MonoBehaviour
             container.SetActive(false);
         }
     }
-
+    public void FinishGame(PlayerScriptableObject player)
+    {
+        containerFinishGame.SetActive(true);
+        winner.text = string.Format("the hobbo with the new house is {0} ", player.name);
+    }
 }

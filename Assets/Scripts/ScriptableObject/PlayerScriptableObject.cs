@@ -10,9 +10,7 @@ public class PlayerScriptableObject : ScriptableObject
     public Sprite image;
     public int health;
     public int maxHealth;
-    public int baseAttack;
     public int attack;
-    public int baseMovementSpeed;
     public float movementSpeed;
     public float score;
     public int deathCount;
