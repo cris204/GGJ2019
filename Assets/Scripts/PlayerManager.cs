@@ -35,6 +35,7 @@ public class PlayerManager : MonoBehaviour
     private Vector2 inputDirection;
     private float timeWithPowerUp;
     private Animator anim;
+    private AudioManager audioManager;
     #endregion
     #region unity functions
     private void OnEnable()
@@ -53,6 +54,7 @@ public class PlayerManager : MonoBehaviour
         canShoot=true;
         inputDirection =new Vector2(0, 1);
         speed = player.movementSpeed;
+        audioManager = GetComponent<AudioManager>();
     }
 
     void Update()
@@ -137,16 +139,18 @@ public class PlayerManager : MonoBehaviour
     {
         anim.SetBool("Shoot", true);
         
-        Debug.Log("bullet");
+
         GameObject bullet = BulletPool.Instance.GetBullet();
         bullet.GetComponent<BulletLifeTime>().whoShoot = player;
         bullet.transform.position = transform.position;
         bullet.GetComponent<Rigidbody2D>().velocity =(aim.transform.position-transform.position).normalized*bulletSpeed*Time.deltaTime;
+        audioManager.SetPlayAudio(4);
     }
 
     private void Death()
     {
         GameManager.Instance.RespawnPlayer(idPlayer);
+        audioManager.SetPlayAudio(1);
     } 
     #endregion
     #region collisions
@@ -157,6 +161,7 @@ public class PlayerManager : MonoBehaviour
             player.health -= col.GetComponent<BulletLifeTime>().whoShoot.attack;
             CanvasManager.Instance.UpdateHealtBars(player.idPlayer, col.GetComponent<BulletLifeTime>().whoShoot.attack);
             BulletPool.Instance.ReleaseBullet(col.gameObject);
+            audioManager.SetPlayAudio(0);
         }
         if (col.gameObject.CompareTag("Damage")|| col.gameObject.CompareTag("Health")|| col.gameObject.CompareTag("Speed"))
         {
@@ -164,6 +169,7 @@ public class PlayerManager : MonoBehaviour
             timeWithPowerUp= col.gameObject.GetComponent<PowerUps>().DurationTime;
             StartCoroutine(PowerUpTime(col.gameObject.GetComponent<PowerUps>().Value, col.gameObject.GetComponent<PowerUps>().Type));
             col.gameObject.SetActive(false);
+            audioManager.SetPlayAudio(2);
            
         }
     }

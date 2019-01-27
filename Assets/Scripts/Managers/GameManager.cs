@@ -101,6 +101,7 @@ public class GameManager : MonoBehaviour
         for (int i = 0; i < initialPos.Length; i++)
         {
             players[i].transform.localPosition = initialPos[i].localPosition;
+            players[i].GetComponent<AudioManager>().SetPlayAudio(3);
         }
     }
 
@@ -128,6 +129,7 @@ public class GameManager : MonoBehaviour
             }
         }
         CanvasManager.Instance.FinishGame(playersScriptableObj[winner]);
+        GetComponent<AudioManager>().SetPlayAudio(0);
         StartCoroutine(RestartGame());
     }
 
@@ -228,6 +230,7 @@ public class GameManager : MonoBehaviour
         playersScriptableObj[idPlayer].health = 100;
         players[idPlayer].transform.localPosition = initialPos[idPlayer].localPosition;
         players[idPlayer].SetActive(true);
+        players[idPlayer].GetComponent<AudioManager>().SetPlayAudio(3);
         CanvasManager.Instance.UpdateHealtBars(idPlayer, -100);
 
         while (playerSprite[idPlayer].color.a <= 1)
