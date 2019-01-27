@@ -101,7 +101,6 @@ public class PlayerManager : MonoBehaviour
 
     private void Aim()
     {
-        //Vector2 inputDirection = Vector2.zero;
         inputDirection.x = Input.GetAxis(aimHorizontal);
         inputDirection.y = Input.GetAxis(aimVertical);
         startPosition=transform.position;
@@ -113,31 +112,15 @@ public class PlayerManager : MonoBehaviour
             }
             inputDirection.x = 0;//oldAim.x;
         }
-      /*  if(inputDirection.x>0.6f)
-        {
-            inputDirection.x = 1f;
-            if(inputDirection.y > 0.6f)
-            {
-                inputDirection.y = 1f;
-            }
-        }
-        if (inputDirection.x < -0.6f)
-        {
-            inputDirection.x = -1f;
-            if (inputDirection.y < -0.6f)
-            {
-                inputDirection.y = -1f;
-            }
-        }
-        oldAim*/ aim.transform.position = startPosition + inputDirection/1.5f;
-        //aim.transform.position = oldAim;
+
+        aim.transform.position = startPosition + inputDirection/1.5f;
+        
     }
 
     private void Attack()
     {
         anim.SetBool("Shoot", true);
         
-        Debug.Log("bullet");
         GameObject bullet = BulletPool.Instance.GetBullet();
         bullet.GetComponent<BulletLifeTime>().whoShoot = player;
         bullet.transform.position = transform.position;
@@ -148,6 +131,7 @@ public class PlayerManager : MonoBehaviour
     {
         GameManager.Instance.RespawnPlayer(idPlayer);
     } 
+
     #endregion
     #region collisions
     void OnTriggerEnter2D(Collider2D col)
@@ -158,14 +142,6 @@ public class PlayerManager : MonoBehaviour
             CanvasManager.Instance.UpdateHealtBars(player.idPlayer, col.GetComponent<BulletLifeTime>().whoShoot.attack);
             BulletPool.Instance.ReleaseBullet(col.gameObject);
         }
-        if (col.gameObject.CompareTag("Damage")|| col.gameObject.CompareTag("Health")|| col.gameObject.CompareTag("Speed"))
-        {
-            
-            timeWithPowerUp= col.gameObject.GetComponent<PowerUps>().DurationTime;
-            StartCoroutine(PowerUpTime(col.gameObject.GetComponent<PowerUps>().Value, col.gameObject.GetComponent<PowerUps>().Type));
-            col.gameObject.SetActive(false);
-           
-        }
     }
     #endregion
     #region coroutines
@@ -174,39 +150,6 @@ public class PlayerManager : MonoBehaviour
         yield return new WaitForSeconds(0.3f);
         canShoot = true;
         anim.SetBool("Shoot", false);
-    }
-
-    IEnumerator PowerUpTime(int value,string type)
-    {
-        switch (type)
-        {
-            case "Damage":
-                player.attack *= value;
-                break;
-            case "Health":
-                // player.health /= value;
-                break;
-            case "Speed":
-                player.movementSpeed *= value;
-                break;
-        }
-
-        Debug.Log(type);
-        yield return new WaitForSeconds(timeWithPowerUp);
-        
-        switch (type)
-        {
-            case "Damage":
-                player.attack /= value;
-                break;
-            case "Health":
-                // player.health /= value;
-                break;
-            case "Speed":
-                player.movementSpeed /= value;
-                break;
-        }
-        
     }
     #endregion
 }
