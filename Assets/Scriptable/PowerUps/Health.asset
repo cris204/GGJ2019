@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   type: Health
   item: {fileID: 0}
-  value: 0
+  value: 20
   durationTime: 0

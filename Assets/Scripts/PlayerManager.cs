@@ -38,6 +38,7 @@ public class PlayerManager : MonoBehaviour
     private AudioManager audioManager;
     #endregion
     #region unity functions
+
     private void OnEnable()
     {
         canShoot=true;
@@ -182,7 +183,7 @@ public class PlayerManager : MonoBehaviour
         anim.SetBool("Shoot", false);
     }
 
-    IEnumerator PowerUpTime(int value,string type)
+    IEnumerator PowerUpTime(float value,string type)
     {
         switch (type)
         {

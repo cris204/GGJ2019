@@ -8,7 +8,7 @@ public class PowerUps : MonoBehaviour
 
     private string type;
     private SpriteRenderer item;
-    private int value;
+    private float value;
     private float durationTime;
 
 
@@ -26,7 +26,7 @@ public class PowerUps : MonoBehaviour
     #region Get&Set
     public string Type { get => type; set => type = value; }
     public SpriteRenderer Item { get => item; set => item = value; }
-    public int Value { get => value; set => this.value = value; }
+    public float Value { get => value; set => this.value = value; }
     public float DurationTime { get => durationTime; set => durationTime = value; }
     #endregion
 }

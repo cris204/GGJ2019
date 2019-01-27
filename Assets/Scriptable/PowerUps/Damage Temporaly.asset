@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   type: Damage
   item: {fileID: 0}
-  value: 0
-  durationTime: 0
+  value: 1.5
+  durationTime: 120
