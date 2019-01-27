@@ -26,7 +26,7 @@ Transform:
   m_GameObject: {fileID: 8543476566977721304}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.3, y: 0.3, z: 0.3}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_Children: []
   m_Father: {fileID: 8543476567710798814}
   m_RootOrder: 0
@@ -67,7 +67,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 10000
   m_Sprite: {fileID: 21300000, guid: 401f8454acaa22a438abbb0d98cbeb5e, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -189,6 +189,7 @@ MonoBehaviour:
   aim: {fileID: 8543476566977721304}
   colorDamage: {r: 1, g: 0.6650944, b: 0.6650944, a: 1}
   colorNormal: {r: 1, g: 1, b: 1, a: 1}
+  isAlive: 0
 --- !u!50 &8543476567710798809
 Rigidbody2D:
   serializedVersion: 4
@@ -366,7 +367,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   audios:
-  - {fileID: 8300000, guid: ea715f3b88e61734b8b85486a2f3888a, type: 3}
+  - {fileID: 8300000, guid: f123e6228b345a84a9ebe29e03a38ef8, type: 3}
   - {fileID: 8300000, guid: 0488d119675034c4d8ebaf44229d3370, type: 3}
   - {fileID: 8300000, guid: b00252036f86fd14c82466f7a6a6d96e, type: 3}
   - {fileID: 8300000, guid: 28b1501cc28625a4786c0654c7ae4b08, type: 3}
