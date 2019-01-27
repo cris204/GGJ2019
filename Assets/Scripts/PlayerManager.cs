@@ -43,7 +43,7 @@ public class PlayerManager : MonoBehaviour
     {
         canShoot=true;
         player.attack = 10;
-
+        player.movementSpeed = 100;
     }
 
     void Start()
