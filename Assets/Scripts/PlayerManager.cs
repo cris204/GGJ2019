@@ -164,10 +164,14 @@ public class PlayerManager : MonoBehaviour
             CanvasManager.Instance.UpdateHealtBars(player.idPlayer, col.GetComponent<BulletLifeTime>().whoShoot.attack);
             BulletPool.Instance.ReleaseBullet(col.gameObject);
             audioManager.SetPlayAudio(0);
-            StartCoroutine(DamageRecived());
+            
             if (player.health <= 0)
             {
                 Death();
+            }
+            else
+            {
+                StartCoroutine(DamageRecived());
             }
         }
         if (col.gameObject.CompareTag("Damage")|| col.gameObject.CompareTag("Health")|| col.gameObject.CompareTag("Speed"))

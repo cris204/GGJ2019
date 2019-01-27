@@ -308,7 +308,7 @@ public class GameManager : MonoBehaviour
         players[idPlayer].GetComponent<AudioManager>().SetPlayAudio(3);
         CanvasManager.Instance.UpdateHealtBars(idPlayer, -100);
 
-        while (playerSprite[idPlayer].color.a <= 1)
+        while (playerSprite[idPlayer].color.a <= 0.95f)
         {
             yield return null;
             lerpAlpha += Time.deltaTime*2;
