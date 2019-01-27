@@ -291,16 +291,19 @@ public class GameManager : MonoBehaviour
 
     IEnumerator Respawn(int idPlayer)
     {
-        while (playerSprite[idPlayer].color.a <= 0)
+        while (playerSprite[idPlayer].color.a >= 0.1f)
         {
             yield return null;
             playerSprite[idPlayer].color = deathAlpha;
             aimPlayerSprite[idPlayer].color = deathAlpha;
         }
         currentBlood = Instantiate(blood);
+        
         currentBlood.transform.position = players[idPlayer].transform.localPosition;
         players[idPlayer].transform.localPosition = initialPos[idPlayer].localPosition;
+        yield return new WaitForSeconds(0.2f);
         players[idPlayer].SetActive(false);
+        
         yield return waitForSecondsToRespawn;
         playersScriptableObj[idPlayer].health = 100;
         

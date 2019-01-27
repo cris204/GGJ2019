@@ -201,9 +201,15 @@ public class PlayerManager : MonoBehaviour
                 audioManager.SetPlayAudio(2);
                 break;
             case "Health":
-                 player.health += -value;
+
+                player.health += -value;
                 CanvasManager.Instance.UpdateHealtBars(player.idPlayer, value);
                 audioManager.SetPlayAudio(4);
+                if (player.health > 100)
+                {
+                    player.health = 100;
+                }
+
                 break;
             case "Speed":
                 player.movementSpeed *= value;
