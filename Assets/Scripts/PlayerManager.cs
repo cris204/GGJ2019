@@ -195,6 +195,7 @@ public class PlayerManager : MonoBehaviour
                 break;
             case "Speed":
                 player.movementSpeed *= value;
+                speed = player.movementSpeed;
                 break;
         }
 
@@ -211,6 +212,7 @@ public class PlayerManager : MonoBehaviour
                 break;
             case "Speed":
                 player.movementSpeed /= value;
+                speed = player.movementSpeed;
                 break;
         }
         

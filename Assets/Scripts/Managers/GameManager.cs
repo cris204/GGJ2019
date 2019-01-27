@@ -289,7 +289,7 @@ public class GameManager : MonoBehaviour
     IEnumerator Respawn(int idPlayer)
     {
         players[idPlayer].transform.localPosition = initialPos[idPlayer].localPosition;
-        yield return new WaitForSeconds(0.1f);
+        yield return new WaitForSeconds(0.2f);
         players[idPlayer].SetActive(false);
         yield return waitForSecondsToRespawn;
         playersScriptableObj[idPlayer].health = 100;

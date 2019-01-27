@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: Damage
   m_EditorClassIdentifier: 
   type: Damage
-  item: {fileID: 21300000, guid: 2acf9d7027ba1c14b918c1d2c5e39958, type: 3}
+  item: {fileID: 21300000, guid: a9f6fc6c930aa0b4eb0199bc6836308f, type: 3}
   value: 2
   durationTime: 10

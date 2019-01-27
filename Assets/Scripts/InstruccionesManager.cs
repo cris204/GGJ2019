@@ -17,6 +17,11 @@ public class InstruccionesManager : MonoBehaviour
                 slides[0].SetActive(false);
                 slides[1].SetActive(true);
                 id++;
+            }else if (id == 1)
+            {
+                slides[1].SetActive(false);
+                slides[2].SetActive(true);
+                id++;
             }
             else
             {
