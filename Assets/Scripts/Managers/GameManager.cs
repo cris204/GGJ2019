@@ -57,6 +57,14 @@ public class GameManager : MonoBehaviour
     private float scoreMax;
     private int winner;
 
+    [Header("PowerUps")]
+    [SerializeField]
+    private GameObject[] powerUps;
+    [SerializeField]
+    private Transform[] powerUpsPosition;
+    private List<GameObject> powerUpsInGame=new List<GameObject>();
+    private bool oneTime;
+
     private void Awake()
     {
         Time.timeScale = 1;
@@ -83,6 +91,7 @@ public class GameManager : MonoBehaviour
             aimPlayerSprite[i] = players[i].transform.GetChild(0).GetComponent<SpriteRenderer>();
         }
         SpawnPlayers();
+        SpawnPowerUps();
         StartCoroutine(ReadyToStart());
         currentTime = maxTime;
         CanvasManager.Instance.TimeElapsed(currentTime);
@@ -115,6 +124,48 @@ public class GameManager : MonoBehaviour
             {
                 FinishStage();
             }
+
+            if (currentTime >= 90 && currentTime <= 91 && !oneTime)
+            {
+                for (int i = 0; i < powerUpsInGame.Count; i++)
+                {
+                    Destroy(powerUpsInGame[i].gameObject);
+                }
+                powerUpsInGame.Clear();
+                SpawnPowerUps();
+                oneTime = true;
+            }
+            else if (currentTime >= 88 && currentTime <= 89)
+            {
+                oneTime = false;
+            }
+
+
+            if (currentTime >= 60 && currentTime<=61&&!oneTime)
+            {
+                for (int i = 0; i < powerUpsInGame.Count; i++)
+                {
+                    Destroy(powerUpsInGame[i].gameObject);
+                }
+                powerUpsInGame.Clear();
+                SpawnPowerUps();
+                oneTime = true;
+            }else if(currentTime >= 58 && currentTime <= 59){
+                oneTime = false;
+            }
+
+            
+
+            if (currentTime >= 30 && currentTime <= 31 && !oneTime)
+            {
+                for (int i = 0; i < powerUpsInGame.Count; i++)
+                {
+                    Destroy(powerUpsInGame[i].gameObject);
+                }
+                powerUpsInGame.Clear();
+                SpawnPowerUps();
+                oneTime = true;
+            }
         }
     }
 
@@ -144,6 +195,17 @@ public class GameManager : MonoBehaviour
         playerSprite[idPlayer].color = deathAlpha;
         aimPlayerSprite[idPlayer].color = deathAlpha;
         StartCoroutine(Respawn(idPlayer));
+    }
+
+    public void SpawnPowerUps()
+    {
+        for (int i = 0; i < powerUpsPosition.Length; i++)
+        {
+            int random = Random.Range(0, powerUps.Length);
+            GameObject power=Instantiate(powerUps[random]);
+            power.transform.position = powerUpsPosition[i].transform.position;
+            powerUpsInGame.Add(power);
+        }
     }
 
     #region Colliders
