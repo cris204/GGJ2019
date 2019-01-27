@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: d2f57117c1621a14889f77cf223b20d2
+guid: 5bcc4440fe08371448ff3a519719e471
 TrueTypeFontImporter:
   externalObjects: {}
   serializedVersion: 4
@@ -8,11 +8,10 @@ TrueTypeFontImporter:
   characterSpacing: 0
   characterPadding: 1
   includeFontData: 1
-  fontName: Sazu2
+  fontName: Edo SZ
   fontNames:
-  - Sazu2
-  fallbackFontReferences:
-  - {fileID: 12800000, guid: 8a60b479dcb127f4fbe4fa9bea5b28a4, type: 3}
+  - Edo SZ
+  fallbackFontReferences: []
   customCharacters: 
   fontRenderingMode: 0
   ascentCalculationMode: 1

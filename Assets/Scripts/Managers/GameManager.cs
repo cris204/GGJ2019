@@ -101,7 +101,7 @@ public class GameManager : MonoBehaviour
         for (int i = 0; i < initialPos.Length; i++)
         {
             players[i].transform.localPosition = initialPos[i].localPosition;
-            players[i].GetComponent<AudioManager>().SetPlayAudio(3);
+            //players[i].GetComponent<AudioManager>().SetPlayAudio(3);
         }
     }
 
@@ -140,7 +140,7 @@ public class GameManager : MonoBehaviour
 
     public void RespawnPlayer(int idPlayer)
     {
-        players[idPlayer].SetActive(false);
+        
         playerSprite[idPlayer].color = deathAlpha;
         aimPlayerSprite[idPlayer].color = deathAlpha;
         StartCoroutine(Respawn(idPlayer));
@@ -226,9 +226,12 @@ public class GameManager : MonoBehaviour
 
     IEnumerator Respawn(int idPlayer)
     {
+        players[idPlayer].transform.localPosition = initialPos[idPlayer].localPosition;
+        yield return new WaitForSeconds(0.1f);
+        players[idPlayer].SetActive(false);
         yield return waitForSecondsToRespawn;
         playersScriptableObj[idPlayer].health = 100;
-        players[idPlayer].transform.localPosition = initialPos[idPlayer].localPosition;
+        
         players[idPlayer].SetActive(true);
         players[idPlayer].GetComponent<AudioManager>().SetPlayAudio(3);
         CanvasManager.Instance.UpdateHealtBars(idPlayer, -100);
