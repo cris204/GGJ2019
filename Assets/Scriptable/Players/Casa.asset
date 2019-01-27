@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 495601dab5d0d434eb06b7668c8ee5fe, type: 3}
+  m_Name: Casa
+  m_EditorClassIdentifier: 
+  name: Casa
+  idPlayer: 1
+  image: {fileID: 0}
+  health: 100
+  maxHealth: 0
+  attack: 10
+  movementSpeed: 100
+  score: 0
+  deathCount: 0
