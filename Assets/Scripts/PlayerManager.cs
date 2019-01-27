@@ -40,7 +40,7 @@ public class PlayerManager : MonoBehaviour
     private Color colorDamage;
     [SerializeField]
     private Color colorNormal;
-
+    public bool isAlive;
     #endregion
     #region unity functions
 
@@ -49,6 +49,7 @@ public class PlayerManager : MonoBehaviour
         canShoot=true;
         player.attack = 10;
         player.movementSpeed = 100;
+        isAlive = true;
     }
 
     void Start()
@@ -65,7 +66,7 @@ public class PlayerManager : MonoBehaviour
 
     void Update()
     {
-        if (GameManager.Instance.StartGame)
+        if (GameManager.Instance.StartGame && isAlive)
         {
             if (Input.GetAxis(fire1) > 0.5f && canShoot)
             {
@@ -78,7 +79,7 @@ public class PlayerManager : MonoBehaviour
     }
     void FixedUpdate()
     {
-        if (GameManager.Instance.StartGame)
+        if (GameManager.Instance.StartGame && isAlive)
         {
             Move();
             Aim();
@@ -205,6 +206,7 @@ public class PlayerManager : MonoBehaviour
                 player.health += -value;
                 CanvasManager.Instance.UpdateHealtBars(player.idPlayer, value);
                 audioManager.SetPlayAudio(4);
+
                 if (player.health > 100)
                 {
                     player.health = 100;

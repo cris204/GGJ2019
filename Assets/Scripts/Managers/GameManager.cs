@@ -291,12 +291,14 @@ public class GameManager : MonoBehaviour
 
     IEnumerator Respawn(int idPlayer)
     {
+        players[idPlayer].GetComponent<PlayerManager>().isAlive = false;
         while (playerSprite[idPlayer].color.a >= 0.1f)
         {
             yield return null;
             playerSprite[idPlayer].color = deathAlpha;
             aimPlayerSprite[idPlayer].color = deathAlpha;
         }
+        
         currentBlood = Instantiate(blood);
         
         currentBlood.transform.position = players[idPlayer].transform.localPosition;
@@ -308,7 +310,7 @@ public class GameManager : MonoBehaviour
         playersScriptableObj[idPlayer].health = 100;
         
         players[idPlayer].SetActive(true);
-        players[idPlayer].GetComponent<AudioManager>().SetPlayAudio(3);
+        players[idPlayer].GetComponent<AudioManager>().SetPlayAudio(6);
         CanvasManager.Instance.UpdateHealtBars(idPlayer, -100);
 
         while (playerSprite[idPlayer].color.a <= 0.95f)
@@ -318,7 +320,7 @@ public class GameManager : MonoBehaviour
             aimPlayerSprite[idPlayer].color= Color.Lerp(deathAlpha, aliveAlpha, lerpAlpha);
             playerSprite[idPlayer].color = Color.Lerp(deathAlpha, aliveAlpha, lerpAlpha);
         }
-
+        players[idPlayer].GetComponent<PlayerManager>().isAlive = true;
         lerpAlpha = 0;
     }
 
