@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class DeepSortByY : MonoBehaviour
 {
-    private const int IsometricRangePerYUnit = 10;
+    private const int IsometricRangePerYUnit = 1000;
 
     void Update()
     {
