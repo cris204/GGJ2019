@@ -3442,7 +3442,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: abb988cbd894ca648b40230f04644eb6, type: 2}
   - {fileID: 11400000, guid: 8be0cc6638195764c937644543b2ede7, type: 2}
   - {fileID: 11400000, guid: 32ab39b6b8b51294d8bccb42e2430851, type: 2}
-  - {fileID: 11400000, guid: 28428b647f29efa4e936a89586e49bfc, type: 2}
+  - {fileID: 0}
   - {fileID: 11400000, guid: bafa59705ae644e46b0ec4aace23253a, type: 2}
   - {fileID: 11400000, guid: 3ec33ec2e8d06bf49b09ef36e5516660, type: 2}
   maxTime: 120
@@ -6923,6 +6923,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1294318028767413181, guid: ebbbb678945110d4ca91ed861e94b0af,
+        type: 3}
+      propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1294318028767413181, guid: ebbbb678945110d4ca91ed861e94b0af,
+        type: 3}
+      propertyPath: m_Color.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1294318028767413181, guid: ebbbb678945110d4ca91ed861e94b0af,
+        type: 3}
+      propertyPath: m_Color.b
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ebbbb678945110d4ca91ed861e94b0af, type: 3}

@@ -208,7 +208,7 @@ public class GameManager : MonoBehaviour
         StartGame = false;
         yield return new WaitForSeconds(5f);
           
-        SceneManager.LoadScene("TestUI");
+        SceneManager.LoadScene("Menu");
     }
 
     IEnumerator ReadyToStart()

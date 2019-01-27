@@ -144,7 +144,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_HorizontalAxis: HorizontalPlayer1
   m_VerticalAxis: VerticalPlayer1
-  m_SubmitButton: Fire1
+  m_SubmitButton: Submit
   m_CancelButton: Cancel
   m_InputActionsPerSecond: 10
   m_RepeatDelay: 0.5
@@ -346,6 +346,7 @@ GameObject:
   - component: {fileID: 1867610174}
   - component: {fileID: 1867610173}
   - component: {fileID: 1867610172}
+  - component: {fileID: 1867610176}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -434,6 +435,22 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!114 &1867610176
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1867610171}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f2484b872571d6a4da2c753852599154, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  slides:
+  - {fileID: 1741576748}
+  - {fileID: 2132966092}
+  id: 0
 --- !u!1 &2132966092
 GameObject:
   m_ObjectHideFlags: 0
