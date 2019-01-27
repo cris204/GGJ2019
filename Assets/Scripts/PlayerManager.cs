@@ -91,7 +91,7 @@ public class PlayerManager : MonoBehaviour
         {
             sR.flipX = true;
         }
-        else
+        else if(rb.velocity.x>0)
         {
             sR.flipX = false;
         }
