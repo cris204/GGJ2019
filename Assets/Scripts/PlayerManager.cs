@@ -146,13 +146,13 @@ public class PlayerManager : MonoBehaviour
         bullet.GetComponent<BulletLifeTime>().whoShoot = player;
         bullet.transform.position = transform.position;
         bullet.GetComponent<Rigidbody2D>().velocity =(aim.transform.position-transform.position).normalized*bulletSpeed*Time.deltaTime;
-        audioManager.SetPlayAudio(4);
+        audioManager.SetPlayAudio(5);
     }
 
     private void Death()
     {
         GameManager.Instance.RespawnPlayer(idPlayer);
-        audioManager.SetPlayAudio(1);
+       
     } 
     #endregion
     #region collisions
@@ -180,7 +180,6 @@ public class PlayerManager : MonoBehaviour
             timeWithPowerUp= col.gameObject.GetComponent<PowerUps>().DurationTime;
             StartCoroutine(PowerUpTime(col.gameObject.GetComponent<PowerUps>().Value, col.gameObject.GetComponent<PowerUps>().Type));
             col.gameObject.SetActive(false);
-            audioManager.SetPlayAudio(2);
            
         }
     }
@@ -199,14 +198,17 @@ public class PlayerManager : MonoBehaviour
         {
             case "Damage":
                 player.attack *= value;
+                audioManager.SetPlayAudio(2);
                 break;
             case "Health":
                  player.health += -value;
                 CanvasManager.Instance.UpdateHealtBars(player.idPlayer, value);
+                audioManager.SetPlayAudio(4);
                 break;
             case "Speed":
                 player.movementSpeed *= value;
                 speed = player.movementSpeed;
+                audioManager.SetPlayAudio(3);
                 break;
         }
 
