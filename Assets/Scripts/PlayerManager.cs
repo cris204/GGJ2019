@@ -129,7 +129,7 @@ public class PlayerManager : MonoBehaviour
                 inputDirection.y = -1f;
             }
         }
-        oldAim*/ aim.transform.position = startPosition + inputDirection;
+        oldAim*/ aim.transform.position = startPosition + inputDirection/1.5f;
         //aim.transform.position = oldAim;
     }
 
@@ -140,7 +140,7 @@ public class PlayerManager : MonoBehaviour
         Debug.Log("bullet");
         GameObject bullet = BulletPool.Instance.GetBullet();
         bullet.GetComponent<BulletLifeTime>().whoShoot = player;
-        bullet.transform.position = aim.transform.position;
+        bullet.transform.position = transform.position;
         bullet.GetComponent<Rigidbody2D>().velocity =(aim.transform.position-transform.position).normalized*bulletSpeed*Time.deltaTime;
     }
 
@@ -152,7 +152,7 @@ public class PlayerManager : MonoBehaviour
     #region collisions
     void OnTriggerEnter2D(Collider2D col)
     {
-        if (col.gameObject.CompareTag("Bullet"))
+        if (col.gameObject.CompareTag("Bullet")&& player.name != col.GetComponent<BulletLifeTime>().whoShoot.name)
         {
             player.health -= col.GetComponent<BulletLifeTime>().whoShoot.attack;
             CanvasManager.Instance.UpdateHealtBars(player.idPlayer, col.GetComponent<BulletLifeTime>().whoShoot.attack);

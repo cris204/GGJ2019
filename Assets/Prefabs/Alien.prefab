@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 6773747902283561372}
   - component: {fileID: 637674403}
   - component: {fileID: 637674408}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Alien
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -184,7 +184,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3497372438183235828}
   - component: {fileID: 3497372438183235829}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Alien Aim
   m_TagString: Untagged
   m_Icon: {fileID: 0}

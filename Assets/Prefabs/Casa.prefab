@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1869266615762436969}
   - component: {fileID: 1869266615762436968}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Casa Aim
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -94,7 +94,7 @@ GameObject:
   - component: {fileID: 8608910456109378049}
   - component: {fileID: 2988650340915687486}
   - component: {fileID: 2988650340915687477}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Casa
   m_TagString: Player
   m_Icon: {fileID: 0}

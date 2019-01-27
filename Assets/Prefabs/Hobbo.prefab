@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8543476566977721311}
   - component: {fileID: 8543476566977721310}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Hobbo Aim
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -94,7 +94,7 @@ GameObject:
   - component: {fileID: 2248412632631244354}
   - component: {fileID: 4698055630447373437}
   - component: {fileID: 4698055630447373430}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Hobbo
   m_TagString: Player
   m_Icon: {fileID: 0}
