@@ -21,6 +21,8 @@ public class CanvasManager : MonoBehaviour
     private GameObject container;
     [SerializeField]
     private Text timeToStart;
+    [SerializeField]
+    private Image[] deathX; 
 
     [Header("Finish")]
     public GameObject containerFinishGame;
@@ -66,8 +68,15 @@ public class CanvasManager : MonoBehaviour
 
     public void UpdateHealtBars(int idPlayer, float damage)
     {
-        Debug.Log(-damage/100);
         playersHealthBars[idPlayer].fillAmount -= damage / 100;
+        if (playersHealthBars[idPlayer].fillAmount <= 0)
+        {
+            deathX[idPlayer].enabled = true;
+        }
+        else
+        {
+            deathX[idPlayer].enabled = false;
+        }
     }
 
     public void TimeElapsed(float time)

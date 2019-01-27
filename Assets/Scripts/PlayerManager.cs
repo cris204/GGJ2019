@@ -36,6 +36,11 @@ public class PlayerManager : MonoBehaviour
     private float timeWithPowerUp;
     private Animator anim;
     private AudioManager audioManager;
+    [SerializeField]
+    private Color colorDamage;
+    [SerializeField]
+    private Color colorNormal;
+
     #endregion
     #region unity functions
 
@@ -69,10 +74,6 @@ public class PlayerManager : MonoBehaviour
                 StartCoroutine(ShootDelay());
             }
 
-            if (player.health <= 0)
-            {
-                Death();
-            }
         }
     }
     void FixedUpdate()
@@ -163,6 +164,11 @@ public class PlayerManager : MonoBehaviour
             CanvasManager.Instance.UpdateHealtBars(player.idPlayer, col.GetComponent<BulletLifeTime>().whoShoot.attack);
             BulletPool.Instance.ReleaseBullet(col.gameObject);
             audioManager.SetPlayAudio(0);
+            StartCoroutine(DamageRecived());
+            if (player.health <= 0)
+            {
+                Death();
+            }
         }
         if (col.gameObject.CompareTag("Damage")|| col.gameObject.CompareTag("Health")|| col.gameObject.CompareTag("Speed"))
         {
@@ -191,7 +197,8 @@ public class PlayerManager : MonoBehaviour
                 player.attack *= value;
                 break;
             case "Health":
-                // player.health /= value;
+                 player.health += -value;
+                CanvasManager.Instance.UpdateHealtBars(player.idPlayer, value);
                 break;
             case "Speed":
                 player.movementSpeed *= value;
@@ -217,5 +224,13 @@ public class PlayerManager : MonoBehaviour
         }
         
     }
+
+    IEnumerator DamageRecived()
+    {
+        sR.color = colorDamage;
+        yield return new WaitForSeconds(0.1f);
+        sR.color = colorNormal;
+    }
+
     #endregion
 }
