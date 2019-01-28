@@ -36,6 +36,11 @@ public class PlayerManager : MonoBehaviour
     private float timeWithPowerUp;
     private Animator anim;
     private AudioManager audioManager;
+    [SerializeField]
+    private Color colorDamage;
+    [SerializeField]
+    private Color colorNormal;
+    public bool isAlive;
     #endregion
     #region unity functions
 
@@ -44,6 +49,7 @@ public class PlayerManager : MonoBehaviour
         canShoot=true;
         player.attack = 10;
         player.movementSpeed = 100;
+        isAlive = true;
     }
 
     void Start()
@@ -60,7 +66,7 @@ public class PlayerManager : MonoBehaviour
 
     void Update()
     {
-        if (GameManager.Instance.StartGame)
+        if (GameManager.Instance.StartGame && isAlive)
         {
             if (Input.GetAxis(fire1) > 0.5f && canShoot)
             {
@@ -69,15 +75,11 @@ public class PlayerManager : MonoBehaviour
                 StartCoroutine(ShootDelay());
             }
 
-            if (player.health <= 0)
-            {
-                Death();
-            }
         }
     }
     void FixedUpdate()
     {
-        if (GameManager.Instance.StartGame)
+        if (GameManager.Instance.StartGame && isAlive)
         {
             Move();
             Aim();
@@ -145,13 +147,13 @@ public class PlayerManager : MonoBehaviour
         bullet.GetComponent<BulletLifeTime>().whoShoot = player;
         bullet.transform.position = transform.position;
         bullet.GetComponent<Rigidbody2D>().velocity =(aim.transform.position-transform.position).normalized*bulletSpeed*Time.deltaTime;
-        audioManager.SetPlayAudio(4);
+        audioManager.SetPlayAudio(5);
     }
 
     private void Death()
     {
         GameManager.Instance.RespawnPlayer(idPlayer);
-        audioManager.SetPlayAudio(1);
+       
     } 
     #endregion
     #region collisions
@@ -163,6 +165,15 @@ public class PlayerManager : MonoBehaviour
             CanvasManager.Instance.UpdateHealtBars(player.idPlayer, col.GetComponent<BulletLifeTime>().whoShoot.attack);
             BulletPool.Instance.ReleaseBullet(col.gameObject);
             audioManager.SetPlayAudio(0);
+            
+            if (player.health <= 0)
+            {
+                Death();
+            }
+            else
+            {
+                StartCoroutine(DamageRecived());
+            }
         }
         if (col.gameObject.CompareTag("Damage")|| col.gameObject.CompareTag("Health")|| col.gameObject.CompareTag("Speed"))
         {
@@ -170,7 +181,6 @@ public class PlayerManager : MonoBehaviour
             timeWithPowerUp= col.gameObject.GetComponent<PowerUps>().DurationTime;
             StartCoroutine(PowerUpTime(col.gameObject.GetComponent<PowerUps>().Value, col.gameObject.GetComponent<PowerUps>().Type));
             col.gameObject.SetActive(false);
-            audioManager.SetPlayAudio(2);
            
         }
     }
@@ -189,13 +199,24 @@ public class PlayerManager : MonoBehaviour
         {
             case "Damage":
                 player.attack *= value;
+                audioManager.SetPlayAudio(2);
                 break;
             case "Health":
-                // player.health /= value;
+
+                player.health += -value;
+                CanvasManager.Instance.UpdateHealtBars(player.idPlayer, value);
+                audioManager.SetPlayAudio(4);
+
+                if (player.health > 100)
+                {
+                    player.health = 100;
+                }
+
                 break;
             case "Speed":
                 player.movementSpeed *= value;
                 speed = player.movementSpeed;
+                audioManager.SetPlayAudio(3);
                 break;
         }
 
@@ -217,5 +238,13 @@ public class PlayerManager : MonoBehaviour
         }
         
     }
+
+    IEnumerator DamageRecived()
+    {
+        sR.color = colorDamage;
+        yield return new WaitForSeconds(0.1f);
+        sR.color = colorNormal;
+    }
+
     #endregion
 }
