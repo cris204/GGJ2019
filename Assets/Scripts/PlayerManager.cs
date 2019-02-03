@@ -60,6 +60,7 @@ public class PlayerManager : MonoBehaviour
         inputDirection =new Vector2(0, 1);
         speed = player.movementSpeed;
         audioManager = GetComponent<AudioManager>();
+        aim.transform.localPosition = new Vector2(0.7f, 0.0f);
     }
 
     void Update()
