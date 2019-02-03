@@ -29,9 +29,7 @@ public class PlayerManager : MonoBehaviour
     private float aimV;
     [SerializeField]
     private GameObject aim;
-    private Vector2 startPosition;
     private bool canShoot;
-    private Vector2 oldAim;
     private Vector2 inputDirection;
     private float timeWithPowerUp;
     private Animator anim;
@@ -106,36 +104,19 @@ public class PlayerManager : MonoBehaviour
 
     private void Aim()
     {
-        //Vector2 inputDirection = Vector2.zero;
-        inputDirection.x = Input.GetAxis(aimHorizontal);
-        inputDirection.y = Input.GetAxis(aimVertical);
-        startPosition=transform.position;
-        if(inputDirection.x>-0.5f && inputDirection.x < 0.5f)
+        inputDirection = new Vector2(Input.GetAxis(aimHorizontal), Input.GetAxis(aimVertical));
+
+        if (inputDirection.magnitude > 0.0f)
         {
-            if(inputDirection.y>-0.5f && inputDirection.y < 0.5f)
-            {
-                inputDirection.y = 1;//oldAim.y;
-            }
-            inputDirection.x = 0;//oldAim.x;
+            inputDirection.Normalize();
+            inputDirection *= 0.7f;
+            aim.transform.localPosition = inputDirection;
+            //aim.SetActive(true);
         }
-      /*  if(inputDirection.x>0.6f)
+        else
         {
-            inputDirection.x = 1f;
-            if(inputDirection.y > 0.6f)
-            {
-                inputDirection.y = 1f;
-            }
+            //aim.SetActive(false);
         }
-        if (inputDirection.x < -0.6f)
-        {
-            inputDirection.x = -1f;
-            if (inputDirection.y < -0.6f)
-            {
-                inputDirection.y = -1f;
-            }
-        }
-        oldAim*/ aim.transform.position = startPosition + inputDirection/1.5f;
-        //aim.transform.position = oldAim;
     }
 
     private void Attack()
